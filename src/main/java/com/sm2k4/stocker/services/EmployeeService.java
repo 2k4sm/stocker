@@ -28,6 +28,7 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
         this.marketRepository = marketRepository;
     }
+
     // get all emp, get emp by id;  create, update, delete emp
     public List<Employee> getAllEmployees(){
         return employeeRepository.findAll();
@@ -42,6 +43,7 @@ public class EmployeeService {
 
         return employeeRepository.findById(id).orElse(null);
     }
+
 
     public Employee createEmployee(CreateEmployeeDTO createEmployeeDTO){
         if(createEmployeeDTO.getName() == null || createEmployeeDTO.getEmail() == null 

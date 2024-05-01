@@ -5,7 +5,9 @@ import com.sm2k4.stocker.dtos.Market.MarketUpdateDTO;
 import com.sm2k4.stocker.exceptions.GeneralExceptions.AlreadyExistsException;
 import com.sm2k4.stocker.exceptions.GeneralExceptions.BadRequestException;
 import com.sm2k4.stocker.exceptions.GeneralExceptions.NotFoundException;
+import com.sm2k4.stocker.models.Employee;
 import com.sm2k4.stocker.models.Market;
+import com.sm2k4.stocker.repositories.EmployeeRepository;
 import com.sm2k4.stocker.repositories.MarketRepository;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +44,7 @@ public class MarketService implements MarketServiceInterface {
     }
 
     public Market createMarket(MarketRequestDTO marketRequestDTO) {
+
         if (marketRequestDTO.getName() == null || marketRequestDTO.getName().isEmpty()) {
             throw new BadRequestException("Market name is required");
         }
