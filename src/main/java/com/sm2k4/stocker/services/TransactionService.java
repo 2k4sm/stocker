@@ -66,15 +66,15 @@ public class TransactionService  implements TransactionServiceInterface {
     }
 
     public Transaction createTransaction(TransactionRequestDTO newTransaction) {
-        Optional<Stock> stock = this.stockRepository.findById(newTransaction.getStockId());
-        Optional<Trader> trader = this.traderRepository.findById(newTransaction.getTraderId());
+        Optional<Stock> stock = this.stockRepository.findById(newTransaction.getStock());
+        Optional<Trader> trader = this.traderRepository.findById(newTransaction.getTrader());
 
         if (stock.isEmpty()) {
-            throw new NotFoundException("No stock found with id " + newTransaction.getStockId());
+            throw new NotFoundException("No stock found with id " + newTransaction.getStock());
         }
 
         if (trader.isEmpty()) {
-            throw new NotFoundException("No trader found with id " + newTransaction.getTraderId());
+            throw new NotFoundException("No trader found with id " + newTransaction.getTrader());
         }
 
         Transaction transaction = new Transaction();

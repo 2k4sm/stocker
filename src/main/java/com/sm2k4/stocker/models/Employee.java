@@ -1,5 +1,6 @@
 package com.sm2k4.stocker.models;
 
+import com.sm2k4.stocker.dtos.Employee.CreateEmployeeDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,4 +23,5 @@ public class Employee {
     private Role role;
     @ManyToOne
     private Market marketId;
+
 }

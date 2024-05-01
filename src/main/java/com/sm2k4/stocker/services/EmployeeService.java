@@ -1,7 +1,12 @@
 package com.sm2k4.stocker.services;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.sm2k4.stocker.models.Market;
+import com.sm2k4.stocker.models.Stock;
+import com.sm2k4.stocker.repositories.MarketRepository;
 import org.springframework.stereotype.Service;
 
 import com.sm2k4.stocker.dtos.Employee.CreateEmployeeDTO;
@@ -17,14 +22,17 @@ import com.sm2k4.stocker.repositories.EmployeeRepository;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final MarketRepository marketRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepository){
+    public EmployeeService(EmployeeRepository employeeRepository , MarketRepository marketRepository){
         this.employeeRepository = employeeRepository;
+        this.marketRepository = marketRepository;
     }
     // get all emp, get emp by id;  create, update, delete emp
     public List<Employee> getAllEmployees(){
         return employeeRepository.findAll();
     }
+
     public Employee getEmployeeByID(long id){
         if(employeeRepository.findById(id).isEmpty())
         {
@@ -37,19 +45,21 @@ public class EmployeeService {
 
     public Employee createEmployee(CreateEmployeeDTO createEmployeeDTO){
         if(createEmployeeDTO.getName() == null || createEmployeeDTO.getEmail() == null 
-        || createEmployeeDTO.getDepartment() == null || 
-        createEmployeeDTO.getRole() == null || createEmployeeDTO.getMarketId() == null )
+            || createEmployeeDTO.getDepartment() == null ||
+            createEmployeeDTO.getRole() == null || createEmployeeDTO.getMarketId() == null )
         {
             throw new BadRequestException("Some field of employee is null");
         }
-        if(createEmployeeDTO.getDepartment()!= Department.TRADING || createEmployeeDTO.getDepartment() != Department.REGULATION) 
-        {
-            throw new BadRequestException("The department is invalid");
-        }
+        Market market = marketRepository.findById(createEmployeeDTO.getMarketId()).orElse(null);
 
-        
-        
-        return employeeRepository.save(createEmployeeDTO.createEmployeeDTO());
+        Employee employee = new Employee();
+        employee.setName(createEmployeeDTO.getName());
+        employee.setEmail(createEmployeeDTO.getEmail());
+        employee.setDepartment(createEmployeeDTO.getDepartment());
+        employee.setRole(createEmployeeDTO.getRole());
+        employee.setMarketId(market);
+
+        return employeeRepository.save(employee);
     }
 
     public void deleteEmployee(Long id){
@@ -65,6 +75,7 @@ public class EmployeeService {
         {
             throw new NotFoundException("Employee not found");
         }
+        Market market = marketRepository.findById(editEmployeeDTO.getMarketId()).orElse(null);
 
         if(editEmployeeDTO.getName() == null || editEmployeeDTO.getEmail() == null 
         || editEmployeeDTO.getMarketId() == null )
@@ -76,7 +87,7 @@ public class EmployeeService {
         if (existingEmployee != null) {
             existingEmployee.setName(editEmployeeDTO.getName());
             existingEmployee.setEmail(editEmployeeDTO.getEmail());
-            existingEmployee.setMarketId(editEmployeeDTO.getMarketId());
+            existingEmployee.setMarketId(market);
         }
         this.employeeRepository.save(existingEmployee);
         return existingEmployee;
