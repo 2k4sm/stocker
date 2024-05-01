@@ -40,7 +40,7 @@ public class TransactionController {
     }
 
     @GetMapping("/stocks")
-    public List<TransactionResponseDTO> getTransactionByStock(@RequestParam("stockId") Long stockId) {
+    public List<TransactionResponseDTO> getTransactionByStock(@RequestParam("stock") Long  stockId) {
         List<Transaction> transactions = transactionService.getAllTransactionsByStockId(stockId);
         List<TransactionResponseDTO> response = new ArrayList<>();
 
@@ -51,7 +51,7 @@ public class TransactionController {
     }
 
     @GetMapping("/traders")
-    public List<TransactionResponseDTO> getTransactionByTrader(@RequestParam("traderId") Long traderId) {
+    public List<TransactionResponseDTO> getTransactionByTrader(@RequestParam("trader") Long traderId) {
         List<Transaction> transaction = transactionService.getAllTransactionsByTraderId(traderId);
         List<TransactionResponseDTO> response = new ArrayList<>();
 

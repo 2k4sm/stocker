@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TransactionRequestDTO {
-    private Long stockId;
-    private Long traderId;
+    private Long stock;
+    private Long trader;
     private Long qty;
     private TransactionStatus status;
     private Type type;
