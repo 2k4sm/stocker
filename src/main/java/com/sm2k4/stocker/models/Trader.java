@@ -21,7 +21,7 @@ public class Trader {
     private String contact;
     @Column(nullable = false,updatable = false)
     private Long licno;
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Transaction> transList;
 
   public Trader(String name, String contact, Long licno) {
