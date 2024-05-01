@@ -78,8 +78,8 @@ public class TransactionService  implements TransactionServiceInterface {
         }
 
         Transaction transaction = new Transaction();
-        transaction.setStockId(stock.get());
-        transaction.setTraderId(trader.get());
+        transaction.setStock(stock.get());
+        transaction.setTrader(trader.get());
         transaction.setQty(newTransaction.getQty());
         transaction.setType(newTransaction.getType());
         transaction.setStatus(TransactionStatus.PENDING);
