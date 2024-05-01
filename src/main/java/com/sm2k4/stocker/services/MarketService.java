@@ -64,17 +64,18 @@ public class MarketService implements MarketServiceInterface {
             throw new NotFoundException("No market found with id: "+ id);
         }
 
-        if (marketUpdateDTO.getName() == null || marketUpdateDTO.getName().isEmpty()) {
-            throw new BadRequestException("Market name is required");
-        }
-
-        if (marketUpdateDTO.getRegion() == null || marketUpdateDTO.getRegion().isEmpty()) {
-            throw new BadRequestException("Market region is required");
+        if ((marketUpdateDTO.getName() == null || marketUpdateDTO.getName().isEmpty()) && (marketUpdateDTO.getRegion() == null || marketUpdateDTO.getRegion().isEmpty())) {
+            throw new BadRequestException("Market either market name or market region is required");
         }
 
         Market market = marketToUpdate.get();
-        market.setName(marketUpdateDTO.getName());
-        market.setRegion(marketUpdateDTO.getRegion());
+        if (marketUpdateDTO.getName() != null ){
+            market.setName(marketUpdateDTO.getName());
+        }
+
+        if (marketUpdateDTO.getRegion() != null){
+            market.setRegion(marketUpdateDTO.getRegion());
+        }
 
         if (this.marketRepository.findByName(marketUpdateDTO.getName()).isPresent()) {
             throw new AlreadyExistsException("Market with name " + marketUpdateDTO.getName() + " already exists");
