@@ -17,9 +17,10 @@ import java.util.Optional;
 @Service
 public class MarketService implements MarketServiceInterface {
     private final MarketRepository marketRepository;
-
-    public MarketService(MarketRepository marketRepository) {
+    private final EmployeeRepository employeeRepository;
+    public MarketService(MarketRepository marketRepository , EmployeeRepository employeeRepository) {
         this.marketRepository = marketRepository;
+        this.employeeRepository = employeeRepository;
     }
 
 
@@ -29,7 +30,6 @@ public class MarketService implements MarketServiceInterface {
         if (markets.isEmpty()) {
             throw new NotFoundException("No markets found");
         }
-
         return markets;
     }
 
