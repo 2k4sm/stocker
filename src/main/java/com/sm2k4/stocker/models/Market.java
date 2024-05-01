@@ -1,5 +1,6 @@
 package com.sm2k4.stocker.models;
 
+import com.sm2k4.stocker.dtos.Market.MarketResponseDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,10 +15,20 @@ public class Market {
     private Long id;
     @Column(unique = true, nullable = false)
     private String name;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String region;
     @ManyToMany
     private List<Stock> stockList;
     @OneToMany
     private List<Employee> employeeList;
+
+    public MarketResponseDTO mapToResponse(){
+        MarketResponseDTO marketResponse = new MarketResponseDTO();
+        marketResponse.setId(id);
+        marketResponse.setName(name);
+        marketResponse.setRegion(region);
+        marketResponse.setStockList(stockList);
+        marketResponse.setEmployeeList(employeeList);
+        return marketResponse;
+    }
 }
