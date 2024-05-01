@@ -9,12 +9,14 @@ import com.sm2k4.stocker.models.Employee;
 import com.sm2k4.stocker.models.Market;
 import com.sm2k4.stocker.repositories.EmployeeRepository;
 import com.sm2k4.stocker.repositories.MarketRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class MarketService implements MarketServiceInterface {
     private final MarketRepository marketRepository;
     private final EmployeeRepository employeeRepository;
@@ -28,8 +30,13 @@ public class MarketService implements MarketServiceInterface {
         List<Market> markets = this.marketRepository.findAll();
 
         if (markets.isEmpty()) {
+            log.warn("No markets found");
             throw new NotFoundException("No markets found");
         }
+
+
+        log.info("Found {} markets", markets.size());
+
         return markets;
     }
 
@@ -37,26 +44,32 @@ public class MarketService implements MarketServiceInterface {
         Optional<Market> market = this.marketRepository.findById(id);
 
         if (market.isEmpty()){
+            log.warn("No market found with id {}", id);
             throw new NotFoundException("No market found with id: "+ id);
         }
 
+        log.info("Found market with id {}", id);
         return market.get();
     }
 
     public Market createMarket(MarketRequestDTO marketRequestDTO) {
 
         if (marketRequestDTO.getName() == null || marketRequestDTO.getName().isEmpty()) {
+            log.warn("Market name is empty");
             throw new BadRequestException("Market name is required");
         }
 
         if (marketRequestDTO.getRegion() == null || marketRequestDTO.getRegion().isEmpty()) {
+            log.warn("Market region is empty");
             throw new BadRequestException("Market region is required");
         }
 
         if (this.marketRepository.findByName(marketRequestDTO.getName()).isPresent()) {
+            log.warn("Market with name {} already exists", marketRequestDTO.getName());
             throw new AlreadyExistsException("Market with name " + marketRequestDTO.getName() + " already exists");
         }
 
+        log.info("Creating market {}", marketRequestDTO.getName());
         return this.marketRepository.save(marketRequestDTO.mapToEntity());
     }
 
@@ -64,10 +77,12 @@ public class MarketService implements MarketServiceInterface {
         Optional<Market> marketToUpdate = this.marketRepository.findById(id);
 
         if (marketToUpdate.isEmpty()){
+            log.warn("No market found with id {}", id);
             throw new NotFoundException("No market found with id: "+ id);
         }
 
         if ((marketUpdateDTO.getName() == null || marketUpdateDTO.getName().isEmpty()) && (marketUpdateDTO.getRegion() == null || marketUpdateDTO.getRegion().isEmpty())) {
+            log.warn("Either market name or market region is required");
             throw new BadRequestException("Market either market name or market region is required");
         }
 
@@ -81,9 +96,11 @@ public class MarketService implements MarketServiceInterface {
         }
 
         if (this.marketRepository.findByName(marketUpdateDTO.getName()).isPresent()) {
+            log.warn("Market with name {} already exists", marketUpdateDTO.getName());
             throw new AlreadyExistsException("Market with name " + marketUpdateDTO.getName() + " already exists");
         }
 
+        log.info("Updating market {}", marketUpdateDTO.getName());
         return this.marketRepository.save(market);
     }
 
@@ -91,6 +108,7 @@ public class MarketService implements MarketServiceInterface {
         Optional<Market> market = this.marketRepository.findById(id);
 
         if (market.isEmpty()){
+            log.warn("No market found with id {}", id);
             throw new NotFoundException("No market found with id: "+ id);
         }
 
@@ -98,6 +116,7 @@ public class MarketService implements MarketServiceInterface {
 
         marketRepository.delete(marketToDelete);
 
+        log.info("Deleted market {}", marketToDelete.getId());
         return marketToDelete;
     }
 }

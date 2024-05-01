@@ -7,7 +7,7 @@ import java.util.Date;
 
 @RestController
 public class DashboardController {
-    @GetMapping("")
+    @GetMapping("/")
     public String showDashboard(){
         return new Date().toString();
     }
