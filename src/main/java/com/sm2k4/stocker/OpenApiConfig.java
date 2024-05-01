@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.servers.Server;
@@ -31,8 +30,6 @@ public class OpenApiConfig {
         prodServer.setUrl(prodUrl);
         prodServer.setDescription("Server URL in Production environment");
 
-
-
         License mitLicense = new License().name("MIT License").url("https://github.com/2k4sm/stocker/blob/main/LICENSE");
 
         Info info = new Info()
@@ -41,6 +38,6 @@ public class OpenApiConfig {
                 .description("This API exposes endpoints to manage stock trading operations")
                 .license(mitLicense);
 
-        return new OpenAPI().info(info).servers(List.of(devServer));
+        return new OpenAPI().info(info).servers(List.of(devServer,prodServer));
     }
 }

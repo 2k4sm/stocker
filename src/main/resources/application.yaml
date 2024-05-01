@@ -16,6 +16,6 @@ spring:
 
 stocker:
     dev:
-      url : http://localhost:8080
+      url : http://localhost:8080/
     prod:
-      url :
+      url : https://api-sm2k4.koyeb.app/

@@ -54,3 +54,11 @@ press : ctrl + c
 ![drawSQL-stocker](https://github.com/2k4sm/stocker/assets/101013814/6a234afc-f12b-43ff-b84e-8281b945bd28)
 
 # API Endpoints:
+Use the swagger-Ui url to access the api endpoints and interact with the api:
+__[swagger-ui](https://api-sm2k4.koyeb.app/swagger-ui/index.html)__
+
+# API is deployed using Dockerfile at koyeb.
+
+-  __Access the api at [api-sm2k4.koyeb.app](https://api-sm2k4.koyeb.app/)__
+
+# Thanks for using stocker.
