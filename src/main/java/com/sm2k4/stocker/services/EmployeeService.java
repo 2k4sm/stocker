@@ -77,6 +77,21 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
+    public List<Employee> getAllEmployeeByMarketId(Long marketId){
+        Market market = marketRepository.findById(marketId).orElse(null);
+        List<Employee> employee = employeeRepository.findAll();
+
+        if(market == null){
+            throw new NotFoundException("Market not found");
+        }
+        for (Employee emp : employee) {
+            if(emp.getMarketId().getId() == marketId){
+                employee.add(emp);
+            }
+        }
+        return employee;
+    }
+
     public void deleteEmployee(Long id){
         if(employeeRepository.findById(id).isEmpty())
         { 

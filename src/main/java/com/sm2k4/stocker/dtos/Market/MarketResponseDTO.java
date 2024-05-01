@@ -15,5 +15,5 @@ public class MarketResponseDTO {
     private Long id;
     private String name;
     private String region;
-    private List<Employee> employeeList;
+
 }
