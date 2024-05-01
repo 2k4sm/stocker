@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.sm2k4.stocker.dtos.Employee.EmployeeDto;
 import com.sm2k4.stocker.models.Market;
 import com.sm2k4.stocker.models.Stock;
 import com.sm2k4.stocker.repositories.MarketRepository;
@@ -30,8 +31,20 @@ public class EmployeeService {
     }
 
     // get all emp, get emp by id;  create, update, delete emp
-    public List<Employee> getAllEmployees(){
-        return employeeRepository.findAll();
+
+    public List<EmployeeDto> getAllEmployees(){
+        List<Employee> employees = employeeRepository.findAll();
+        List<EmployeeDto> employeeDtos = new ArrayList<>();
+        for(Employee employee : employees){
+            EmployeeDto employeeDto = new EmployeeDto();
+            employeeDto.setName(employee.getName());
+            employeeDto.setEmail(employee.getEmail());
+            employeeDto.setDepartment(employee.getDepartment());
+            employeeDto.setRole(employee.getRole());
+            employeeDto.setMarketId(employee.getMarketId().getId());
+            employeeDtos.add(employeeDto);
+        }
+        return employeeDtos;
     }
 
     public Employee getEmployeeByID(long id){
