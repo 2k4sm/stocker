@@ -1,6 +1,5 @@
 package com.sm2k4.stocker.models;
 
-import com.sm2k4.stocker.dtos.Transaction.TransactionRequestDTO;
 import com.sm2k4.stocker.dtos.Transaction.TransactionResponseDTO;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -16,12 +15,11 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    private Stock stock;
+    @ManyToOne
+    private Trader trader;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Stock stockId;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Trader traderId;
     @Column(nullable = false)
     private Long qty;
 
@@ -35,8 +33,8 @@ public class Transaction {
     public TransactionResponseDTO mapToTransactionResponse() {
         TransactionResponseDTO transactionResponseDTO = new TransactionResponseDTO();
         transactionResponseDTO.setId(id);
-        transactionResponseDTO.setStockId(stockId);
-        transactionResponseDTO.setTraderId(traderId);
+        transactionResponseDTO.setStockId(stock);
+        transactionResponseDTO.setTraderId(trader);
         transactionResponseDTO.setQty(qty);
         transactionResponseDTO.setStatus(status);
         transactionResponseDTO.setType(type);
