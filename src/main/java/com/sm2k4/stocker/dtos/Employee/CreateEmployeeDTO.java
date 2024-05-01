@@ -33,6 +33,5 @@ public class CreateEmployeeDTO {
     private Market marketId;
     private Department department;
     private Role role;
-    
-    
+
 }
