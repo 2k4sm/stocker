@@ -14,17 +14,19 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     private Stock stock;
     @ManyToOne
     private Trader trader;
+
     @Column(nullable = false)
     private Long qty;
 
     private TransactionStatus status;
 
     @Column(nullable = false)
-    private Type type;
+    private TransactionType type;
     @Column(nullable = false)
     private Date date;
 

@@ -17,9 +17,9 @@ public class Market {
     private String name;
     @Column(nullable = false)
     private String region;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     private List<Stock> stockList;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.MERGE)
     private List<Employee> employeeList;
 
     public MarketResponseDTO mapToResponse(){
