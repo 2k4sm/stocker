@@ -15,9 +15,12 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private Stock stockId;
-    @ManyToOne
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private Trader traderId;
     @Column(nullable = false)
     private Long qty;
@@ -25,7 +28,7 @@ public class Transaction {
     private TransactionStatus status;
 
     @Column(nullable = false)
-    private Type type;
+    private TransactionType type;
     @Column(nullable = false)
     private Date date;
 
