@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface TraderRepository extends JpaRepository<Trader, Long> {
     Optional<Trader> findTraderByLicno(Long licno);
+    Optional<Trader> findTraderById(Long id);
+    Optional<Trader> findTraderByContact(String contact);
 }

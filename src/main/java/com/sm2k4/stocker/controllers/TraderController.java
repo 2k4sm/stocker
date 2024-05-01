@@ -23,9 +23,14 @@ public class TraderController {
         List<TradersDto> traders = traderService.getAllTraders();
         return ResponseEntity.ok(traders);
     }
-    @GetMapping("/{licno}")
+    @GetMapping("/licno/{licno}")
     public ResponseEntity<TradersDto> getTraderByLicno(@PathVariable Long licno) {
         TradersDto trader = traderService.getTraderByLicno(licno);
+        return ResponseEntity.ok(trader);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<TradersDto> getTraderById(@PathVariable Long id) {
+        TradersDto trader = traderService.getTraderById(id);
         return ResponseEntity.ok(trader);
     }
     @PostMapping
