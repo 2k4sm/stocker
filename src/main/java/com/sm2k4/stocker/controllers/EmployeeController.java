@@ -2,7 +2,6 @@ package com.sm2k4.stocker.controllers;
 
 import java.util.List;
 
-import com.sm2k4.stocker.dtos.Employee.EmployeeDto;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +26,7 @@ public class EmployeeController {
     }
     
     @GetMapping("")
-    public List<EmployeeDto> getAllEmployees(){
+    public List<Employee> getAllEmployees(){
         return employeeService.getAllEmployees();
     }
 
