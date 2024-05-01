@@ -51,5 +51,6 @@ press : ctrl + c
 ---
 
 # Schema Design:
+![drawSQL-stocker](https://github.com/2k4sm/stocker/assets/101013814/6a234afc-f12b-43ff-b84e-8281b945bd28)
 
 # API Endpoints:
