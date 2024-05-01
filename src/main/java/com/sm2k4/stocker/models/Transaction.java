@@ -23,7 +23,7 @@ public class Transaction {
     @Column(nullable = false)
     private Long qty;
     @Column(nullable = false)
-    private Type type;
+    private TransactionType type;
     @Column(nullable = false)
     private Date date;
 }

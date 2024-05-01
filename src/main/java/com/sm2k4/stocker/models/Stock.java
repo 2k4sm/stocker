@@ -14,12 +14,16 @@ public class Stock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String name;
+
     @ManyToMany
     private List<Market> marketList;
+
     @OneToMany
     private List<Transaction> transList;
+
     @Column(nullable = false)
     private Long price;
 
