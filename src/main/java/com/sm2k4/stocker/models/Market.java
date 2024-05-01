@@ -17,8 +17,6 @@ public class Market {
     private String name;
     @Column(nullable = false)
     private String region;
-    @ManyToMany(cascade = CascadeType.MERGE ,fetch = FetchType.EAGER)
-    private List<Stock> stockList;
     @OneToMany(cascade = CascadeType.MERGE ,fetch = FetchType.EAGER)
     private List<Employee> employeeList;
 
@@ -27,7 +25,6 @@ public class Market {
         marketResponse.setId(id);
         marketResponse.setName(name);
         marketResponse.setRegion(region);
-        marketResponse.setStockList(stockList);
         marketResponse.setEmployeeList(employeeList);
         return marketResponse;
     }
