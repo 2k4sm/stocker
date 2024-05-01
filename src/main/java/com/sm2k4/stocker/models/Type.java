@@ -1,7 +1,7 @@
 package com.sm2k4.stocker.models;
 
 
-public enum TransactionType {
+public enum Type {
     BUY,
     SELL
 }
