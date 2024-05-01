@@ -37,6 +37,9 @@ public class StockServiceImpl implements StockService{
 
     @Override
     public List<Stock> getAllStocks() {
+        if (stockRepository.findAll().isEmpty()){
+            throw new NotFoundException("No stocks found");
+        }
         return stockRepository.findAll();
     }
 
