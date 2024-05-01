@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MarketService {
+public class MarketService implements MarketServiceInterface {
     private final MarketRepository marketRepository;
 
     public MarketService(MarketRepository marketRepository) {

@@ -6,6 +6,7 @@ import com.sm2k4.stocker.dtos.Market.MarketResponseDTO;
 import com.sm2k4.stocker.dtos.Market.MarketUpdateDTO;
 import com.sm2k4.stocker.models.Market;
 import com.sm2k4.stocker.services.MarketService;
+import com.sm2k4.stocker.services.MarketServiceInterface;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -15,9 +16,9 @@ import java.util.List;
 @RequestMapping("/markets")
 public class MarketController {
 
-    private final MarketService marketService;
+    private final MarketServiceInterface marketService;
 
-    public MarketController(MarketService marketService) {
+    public MarketController(MarketServiceInterface marketService) {
         this.marketService = marketService;
     }
 

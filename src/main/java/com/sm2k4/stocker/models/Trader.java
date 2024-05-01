@@ -2,12 +2,14 @@ package com.sm2k4.stocker.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "trader")
+@NoArgsConstructor
 public class Trader {
 
     @Id
@@ -19,6 +21,12 @@ public class Trader {
     private String contact;
     @Column(nullable = false,updatable = false)
     private Long licno;
-    @OneToMany
+    @OneToMany()
     private List<Transaction> transList;
+
+  public Trader(String name, String contact, Long licno) {
+    this.name = name;
+    this.contact = contact;
+    this.licno = licno;
+  }
 }
