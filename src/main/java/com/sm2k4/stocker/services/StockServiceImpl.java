@@ -57,6 +57,13 @@ public class StockServiceImpl implements StockService{
         List<Long> marketIdList = stockRequestDTO.getMarketList();
         List<Market> marketListToAdd = new ArrayList<>();
 
+        List<Stock> stockList = stockRepository.findAll();
+        for(Stock stock : stockList){
+            if(stock.getName().equals(stockRequestDTO.getName())){
+                throw new AlreadyExistsException("Stock with name " + stockRequestDTO.getName());
+            }
+        }
+
         for(Long marketId : marketIdList){
             Optional<Market> optionalMarket = marketRepository.findById(marketId);
             if(optionalMarket.isEmpty()){

@@ -5,7 +5,9 @@ import com.sm2k4.stocker.dtos.Market.MarketUpdateDTO;
 import com.sm2k4.stocker.exceptions.GeneralExceptions.AlreadyExistsException;
 import com.sm2k4.stocker.exceptions.GeneralExceptions.BadRequestException;
 import com.sm2k4.stocker.exceptions.GeneralExceptions.NotFoundException;
+import com.sm2k4.stocker.models.Employee;
 import com.sm2k4.stocker.models.Market;
+import com.sm2k4.stocker.repositories.EmployeeRepository;
 import com.sm2k4.stocker.repositories.MarketRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,9 +19,10 @@ import java.util.Optional;
 @Slf4j
 public class MarketService implements MarketServiceInterface {
     private final MarketRepository marketRepository;
-
-    public MarketService(MarketRepository marketRepository) {
+    private final EmployeeRepository employeeRepository;
+    public MarketService(MarketRepository marketRepository , EmployeeRepository employeeRepository) {
         this.marketRepository = marketRepository;
+        this.employeeRepository = employeeRepository;
     }
 
 
@@ -31,7 +34,9 @@ public class MarketService implements MarketServiceInterface {
             throw new NotFoundException("No markets found");
         }
 
+
         log.info("Found {} markets", markets.size());
+
         return markets;
     }
 
@@ -48,6 +53,7 @@ public class MarketService implements MarketServiceInterface {
     }
 
     public Market createMarket(MarketRequestDTO marketRequestDTO) {
+
         if (marketRequestDTO.getName() == null || marketRequestDTO.getName().isEmpty()) {
             log.warn("Market name is empty");
             throw new BadRequestException("Market name is required");

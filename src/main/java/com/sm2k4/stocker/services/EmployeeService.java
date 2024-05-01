@@ -3,6 +3,7 @@ package com.sm2k4.stocker.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.sm2k4.stocker.dtos.Employee.EmployeeDto;
 import com.sm2k4.stocker.models.Market;
 import com.sm2k4.stocker.repositories.MarketRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ public class EmployeeService {
         this.marketRepository = marketRepository;
     }
 
+  
     public List<Employee> getAllEmployees(){
 
         List<Employee> employees = employeeRepository.findAll();
@@ -36,6 +38,7 @@ public class EmployeeService {
         }
         log.info("Fetched All the employees");
         return employees;
+
     }
 
     public Employee getEmployeeByID(long id){
@@ -48,6 +51,7 @@ public class EmployeeService {
         log.info("Fetched Employee with id {}", id);
         return employeeRepository.findById(id).orElse(null);
     }
+
 
     public Employee createEmployee(CreateEmployeeDTO createEmployeeDTO){
         if(createEmployeeDTO.getName() == null || createEmployeeDTO.getEmail() == null 
@@ -68,6 +72,21 @@ public class EmployeeService {
 
         log.info("New employee created");
         return employeeRepository.save(employee);
+    }
+
+    public List<Employee> getAllEmployeeByMarketId(Long marketId){
+        Market market = marketRepository.findById(marketId).orElse(null);
+        List<Employee> employee = employeeRepository.findAll();
+
+        if(market == null){
+            throw new NotFoundException("Market not found");
+        }
+        for (Employee emp : employee) {
+            if(emp.getMarketId().getId() == marketId){
+                employee.add(emp);
+            }
+        }
+        return employee;
     }
 
     public void deleteEmployee(Long id){
