@@ -1,24 +1,21 @@
 package com.sm2k4.stocker.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.sm2k4.stocker.models.Market;
-import com.sm2k4.stocker.models.Stock;
 import com.sm2k4.stocker.repositories.MarketRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import com.sm2k4.stocker.dtos.Employee.CreateEmployeeDTO;
 import com.sm2k4.stocker.dtos.Employee.EditEmployeeDTO;
-import com.sm2k4.stocker.exceptions.GeneralExceptions.AlreadyExistsException;
 import com.sm2k4.stocker.exceptions.GeneralExceptions.BadRequestException;
 import com.sm2k4.stocker.exceptions.GeneralExceptions.NotFoundException;
-import com.sm2k4.stocker.models.Department;
 import com.sm2k4.stocker.models.Employee;
 import com.sm2k4.stocker.repositories.EmployeeRepository;
 
 @Service
+@Slf4j
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
@@ -28,18 +25,27 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
         this.marketRepository = marketRepository;
     }
-    // get all emp, get emp by id;  create, update, delete emp
+
     public List<Employee> getAllEmployees(){
-        return employeeRepository.findAll();
+
+        List<Employee> employees = employeeRepository.findAll();
+
+        if (employees.isEmpty()){
+            log.warn("Employees List is empty");
+            throw new NotFoundException("Employees not found");
+        }
+        log.info("Fetched All the employees");
+        return employees;
     }
 
     public Employee getEmployeeByID(long id){
         if(employeeRepository.findById(id).isEmpty())
         {
+            log.warn("Employee with id {} not found", id);
              throw new NotFoundException("Employee not found");
         }
         
-
+        log.info("Fetched Employee with id {}", id);
         return employeeRepository.findById(id).orElse(null);
     }
 
@@ -48,6 +54,7 @@ public class EmployeeService {
             || createEmployeeDTO.getDepartment() == null ||
             createEmployeeDTO.getRole() == null || createEmployeeDTO.getMarketId() == null )
         {
+            log.warn("Employee creation failed");
             throw new BadRequestException("Some field of employee is null");
         }
         Market market = marketRepository.findById(createEmployeeDTO.getMarketId()).orElse(null);
@@ -59,20 +66,25 @@ public class EmployeeService {
         employee.setRole(createEmployeeDTO.getRole());
         employee.setMarketId(market);
 
+        log.info("New employee created");
         return employeeRepository.save(employee);
     }
 
     public void deleteEmployee(Long id){
         if(employeeRepository.findById(id).isEmpty())
-        { 
+        {
+            log.warn("Employee with id {} not found", id);
             throw new NotFoundException("Employee not found");
         }
+
+        log.info("Fetched Employee with id {}", id);
         employeeRepository.deleteById(id);
     }
 
     public Employee updateEmployee(long id, EditEmployeeDTO editEmployeeDTO){
         if(employeeRepository.findById(id).isEmpty()) 
         {
+            log.warn("Employee with id {} not found", id);
             throw new NotFoundException("Employee not found");
         }
         Market market = marketRepository.findById(editEmployeeDTO.getMarketId()).orElse(null);
@@ -80,15 +92,22 @@ public class EmployeeService {
         if(editEmployeeDTO.getName() == null || editEmployeeDTO.getEmail() == null 
         || editEmployeeDTO.getMarketId() == null )
         {
+            log.info("Employee update failed");
             throw new BadRequestException("Some field of employee is null");
         }
 
-        Employee existingEmployee = employeeRepository.findById(id).orElse(null);
-        if (existingEmployee != null) {
-            existingEmployee.setName(editEmployeeDTO.getName());
-            existingEmployee.setEmail(editEmployeeDTO.getEmail());
-            existingEmployee.setMarketId(market);
+        Optional<Employee> existingEmployeeOptional = employeeRepository.findById(id);
+        if (existingEmployeeOptional.isEmpty()){
+            log.warn("Employee with id {} not found", id);
+            throw new NotFoundException("No Employee Found.");
         }
+        Employee existingEmployee = existingEmployeeOptional.get();
+
+        existingEmployee.setEmail(editEmployeeDTO.getEmail());
+        existingEmployee.setMarketId(market);
+        existingEmployee.setName(editEmployeeDTO.getName());
+
+        log.info("Fetched Employee with id {}", id);
         this.employeeRepository.save(existingEmployee);
         return existingEmployee;
     }
