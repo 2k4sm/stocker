@@ -38,6 +38,6 @@ public class OpenApiConfig {
                 .description("This API exposes endpoints to manage stock trading operations")
                 .license(mitLicense);
 
-        return new OpenAPI().info(info).servers(List.of(devServer));
+        return new OpenAPI().info(info).servers(List.of(devServer,prodServer));
     }
 }
