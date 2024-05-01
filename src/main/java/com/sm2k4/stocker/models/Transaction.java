@@ -14,10 +14,10 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Stock stockId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Trader traderId;
 
     @Column(nullable = false)

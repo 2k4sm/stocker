@@ -1,5 +1,7 @@
 package com.sm2k4.stocker.models;
 
+import com.sm2k4.stocker.dtos.Market.MarketResponseDTO;
+import com.sm2k4.stocker.dtos.Stock.StockResponseDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,10 +20,10 @@ public class Stock {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     private List<Market> marketList;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.MERGE)
     private List<Transaction> transList;
 
     @Column(nullable = false)
@@ -29,4 +31,15 @@ public class Stock {
 
 
     //private List<Long> historicalPrices;
+
+    public StockResponseDTO mapToResponse(){
+        StockResponseDTO stockResponse = new StockResponseDTO();
+        stockResponse.setId(id);
+        stockResponse.setPrice(price);
+        stockResponse.setName(name);
+        stockResponse.setMarketList(marketList);
+        stockResponse.setMarketList(marketList);
+        stockResponse.setTransList(transList);
+        return stockResponse;
+    }
 }
